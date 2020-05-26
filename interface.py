@@ -1,6 +1,6 @@
 from appJar import gui
 import pandas as pd
-import calcular_icms as ci
+import funcoes as my_fn
 import banco_dados_icms as bd
 
 def _pegar_relatorio():
@@ -13,7 +13,7 @@ def _thread_calcular_icms():
     path_to_save = app.saveBox(title="", fileName="",
                        dirName=None, fileExt=".csv", fileTypes=None, asFile=None, parent=None)
 
-    app.thread(ci._calcular(nome_arquivo, path_to_save))
+    app.thread(my_fn._calcular(nome_arquivo, path_to_save, app))
 
 def _thread_popular_banco():
     app.thread(bd._popular_banco(nome_arquivo))
@@ -29,11 +29,17 @@ app.setFont(10)
 coluna = 0
 linha = 0
 
-app.addButton("Pegar relatório gerado pela Domínio", _pegar_relatorio, row = coluna, column = linha)
+app.addLabel("aliq_interna_label", "Alíquota Interna", row = linha, column = coluna)
+app.addEntry("aliq_interna_entry", row = linha, column = coluna+1)
 linha += 1
-app.addButton("Calcular ICMS", _thread_calcular_icms, row = coluna, column = linha)
+app.addLabel("aliq_interestadual_label", "Alíquota Interstadual", row = linha, column = coluna)
+app.addEntry("aliq_interestadual_entry", row = linha, column = coluna+1)
 linha += 1
-app.addButton("Popular banco de dados", _thread_popular_banco, row = coluna, column = linha)
+app.addButton("Pegar relatório gerado pela Domínio", _pegar_relatorio, row = linha, column = coluna)
+linha += 1
+app.addButton("Calcular ICMS", _thread_calcular_icms, row = linha, column = coluna)
+linha += 1
+app.addButton("Popular banco de dados", _thread_popular_banco, row = linha-1, column = coluna+1)
 linha += 1
 
 ########################################################################################################################

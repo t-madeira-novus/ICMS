@@ -11,6 +11,7 @@ def _popular_banco(relatorios):
     for relatorio in relatorios:
         df = pd.read_excel(relatorio, encoding='latin-1', sep=';')
         print(df.columns)
+
         for i in tqdm(df.index):
 
             descricao = df.at[i, "Descrição item"]
